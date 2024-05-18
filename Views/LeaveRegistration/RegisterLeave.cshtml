@@ -1,0 +1,123 @@
+﻿@model List<HRSystem.Models.LeaveBalance>
+@using System.Security.Claims
+ <div class="pagetitle">
+      <h1>Form Elements</h1>
+      <nav>
+        <ol class="breadcrumb">e
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Elements</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">General Form Elements</h5>
+
+              <!-- General Form Elements -->
+              <form asp-action="RegisterLeave" asp-controller="Registration">
+               
+               
+               
+                <input type="hidden" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" name="employeeId" / >
+               
+                
+                <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">StartDate</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" name="StartDate" id="start" >
+                  </div>
+                </div>
+                 <div class="row mb-3">
+                  <label for="EndDate" class="col-sm-2 col-form-label">EndDate</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" name="EndDate" id="end">
+                  </div>
+                </div>
+               
+                <input type="hidden" id="duration" name="duration">
+               
+                
+              
+                
+               
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Select Type </label>
+                  <div class="col-sm-10">
+                    <select class="form-select" aria-label="Default select example " name="typeId">
+                    @foreach (var leave in Model)
+                    {
+                        @if(leave.mybalance!=-1){
+                        <option value="@leave.type.Id">@leave.type.Type_name (@leave.mybalance)</option>
+                         }else{
+                            <option value="@leave.type.Id">@leave.type.Type_name (UnPaid)</option>
+                         }
+
+                        }
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="row mb-3">
+                  
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary" >Submit Form</button>
+                  </div>
+                </div>
+
+              </form><!-- End General Form Elements -->
+
+            </div>
+          </div>
+
+        </div>
+        </div>
+
+        </section>
+        <button id="btn">calc</button>
+        <script>
+
+            function getDuration(){
+            var start=$("#start").val();
+            var end=$("#end").val();
+
+            var s=new Date(start);
+            var e=new Date(end);
+            var diff=e.getTime()-s.getTime();
+            var days=diff/(1000*3600*24);
+            $("#duration").val(Math.abs(days)+1));
+
+            }
+
+
+
+
+            $(document).ready(
+            function(){
+            $("#btn").click(
+            function(){
+            var start=$("#start").val();
+            var end=$("#end").val();
+
+            var s=new Date(start);
+            var e=new Date(end);
+            var diff=e.getTime()-s.getTime();
+            var days=diff/(1000*3600*24);
+            console.log(Math.abs(days)+1);
+            
+            }
+            );
+
+          
+
+
+            }
+            );
+
+        </script>
